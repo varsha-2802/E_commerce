@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to Makeup E-commerce{% endblock %}
+
+{% block content %}
+    <style>
+        h1, h2 ,p{
+            color: #fff8f8;
+            text-align: center;
+        }
+        .featured-products, .categories {
+            margin-bottom: 2rem;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+        }
+        .product-card h3 {
+            margin: 0.5rem 0;
+        }
+        .product-card p {
+            font-weight: bold;
+            color: #e44d26;
+        }
+        .product-card a, .product-card button {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .product-card button {
+            background-color: #008CBA;
+        }
+        .category-list {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .category-list li {
+            margin: 0.5rem;
+        }
+        .category-list a {
+            display: block;
+            padding: 0.5rem 1rem;
+            background-color: #f4f4f4;
+            color: #333;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
+
+    <h1>Welcome to Makeup E-commerce</h1>
+    <h2>This Makeup E-commerce Project is an online platform designed to offer a seamless and enjoyable shopping experience for makeup enthusiasts. The project includes features such as product browsing, detailed product descriptions, a shopping cart, secure checkout, and an order management system. The platform is built using modern web technologies to ensure a responsive, user-friendly interface and secure transactions.</h2>
+    <p>
+        Offering a diverse range of products for all skin types and tones
+Providing cruelty-free and vegan options
+Ensuring a seamless shopping experience with secure transactions
+Delivering exceptional customer service and expert beauty advice
+Join our beauty community and embark on a journey of self-expression and empowerment. Let's celebrate your unique beauty together!
+    </p>
+{% endblock %}
+
+
+

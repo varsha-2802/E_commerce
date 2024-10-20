@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Glamour Glow Cosmetics{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #71626a;  /* Hot Pink */
+            --secondary-color: #635d60;  /* Deep Pink */
+            --background-color: #FFF0F5;  /* Lavender Blush */
+            --text-color: #333;
+            --header-height: 70px;
+        }
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    
+        body {
+            background-image: url("{% static 'images/makeup.jpg'%}");
+            font-family: 'Poppins', Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-size: 16px;
+        }
+    
+        header {
+            background-color: var(--primary-color);
+            padding: 0.5rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    
+        .logo {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+    
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            align-items: center;
+        }
+    
+        nav ul li {
+            margin: 0 10px;
+        }
+    
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 25px;
+        }
+    
+        nav ul li a:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+    
+        main {
+            padding: calc(2rem + var(--header-height)) 2rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: calc(100vh - var(--header-height) - 60px);
+        }
+    
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    
+        .button:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+    
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+    
+        .product-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+    
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+    
+        .product-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+    
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+    
+        .product-info {
+            padding: 20px;
+            text-align: center;
+        }
+    
+        .product-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+    
+        .product-price {
+            font-weight: 600;
+            color: var(--secondary-color);
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+    
+        .hero {
+            background-image: url('{% static "images/hero-bg.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+    
+        .hero-content {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+    
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 1rem;
+        }
+    
+        .featured-products {
+            margin-top: 4rem;
+        }
+    
+        .section-title {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+    
+        .newsletter {
+            background-color: var(--secondary-color);
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+        }
+    
+        .newsletter h2 {
+            margin-bottom: 1rem;
+        }
+    
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+    
+        .newsletter-form input[type="email"] {
+            padding: 10px;
+            width: 300px;
+            border: none;
+            border-radius: 25px 0 0 25px;
+        }
+    
+        .newsletter-form button {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0 25px 25px 0;
+            cursor: pointer;
+        }
+    
+        .social-links {
+            margin-top: 2rem;
+        }
+    
+        .social-links a {
+            color: white;
+            font-size: 1.5em;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+    
+        .social-links a:hover {
+            color: var(--background-color);
+        }
+    
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                height: auto;
+                padding: 1rem;
+            }
+    
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 1rem;
+            }
+    
+            nav ul li {
+                margin: 5px 0;
+            }
+    
+            main {
+                padding-top: calc(2rem + 200px);
+            }
+    
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+    
+            .hero {
+                height: 400px;
+            }
+    
+            .hero h1 {
+                font-size: 2em;
+            }
+    
+            .newsletter-form {
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            .newsletter-form input[type="email"] {
+                width: 100%;
+                max-width: 300px;
+                border-radius: 25px;
+                margin-bottom: 1rem;
+            }
+    
+            .newsletter-form button {
+                width: 100%;
+                max-width: 300px;
+                border-radius: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{% url 'home' %}" class="logo">Glamour Glow</a>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'product_list' %}">All Products</a></li>
+                <li><a href="{% url 'product_list_by_category' 'lipstick' %}">Lipsticks</a></li>
+                <li><a href="{% url 'product_list_by_category' 'foundation' %}">Foundations</a></li>
+                <li><a href="{% url 'cart' %}">Cart</a></li>
+                
+                {% if user.is_authenticated %}
+                <li>
+                    <form action="{% url 'logout' %}" method="POST" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-link">Logout</button>
+                    </form>
+                </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+                <li><a href="{% url 'contact' %}">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Discover Your Perfect Glow</h1>
+                <p>Explore our wide range of premium cosmetics</p>
+                <a href="{% url 'product_list' %}" class="button">Shop Now</a>
+            </div>
+        </section>
+
+        <section class="newsletter">
+            <h2>Subscribe to Our Newsletter</h2>
+            <p>Get the latest updates on new products and special promotions!</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </section>
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.instagram.com/_varshuh"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/9741550326"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p>&copy; 2024 Glamour Glow Cosmetics. All rights reserved.</p>
+    </footer>
+
+    <script src="{% static 'js/cart.js' %}"></script>
+    {% block extra_js %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productId = this.dataset.productId;
+                    addToCart(productId);
+                });
+            });
+
+            function addToCart(productId) {
+                fetch(`/add-to-cart/${productId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Product added to cart!');
+                        // You can update the cart count in the navbar here if you have one
+                    } else {
+                        alert('Error adding product to cart.');
+                    }
+                });
+            }
+
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+    </script>
+    {% endblock %}
+</body>
+</html>

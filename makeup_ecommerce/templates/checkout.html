@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<style>
+    .checkout-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        color:#f2f2f2
+    }
+    h2, h3 {
+        color: #ebeff2;
+    }
+    h2 {
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        color: #333;
+    }
+    .product-info {
+        display: flex;
+        align-items: center;
+    }
+    .product-image {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        margin-right: 10px;
+        border-radius: 4px;
+    }
+    .total-row {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #fffdfd;
+    }
+    .place-order-btn {
+        background-color: #2ecc71;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+    .place-order-btn:hover {
+        background-color: #27ae60;
+    }
+
+    .payment-form {
+        margin-top: 20px;
+    }
+    .payment-form input {
+        margin-bottom: 10px;
+        padding: 8px;
+        width: 100%;
+        max-width: 300px;
+    }
+    .payment-form label {
+        display: block;
+        margin-bottom: 5px;
+    }
+</style>
+
+<div class="checkout-container">
+    <h2>Checkout</h2>
+    <h3>Order Summary</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+    </table>
+
+    <h3>Payment Method</h3>
+    <div class="payment-methods">
+        <div class="payment-method">
+            <input type="radio" id="credit-card" name="payment-method" value="credit-card" checked onchange="showPaymentForm('credit-card')">
+            <label for="credit-card">Credit Card</label>
+        </div>
+        <div class="payment-method">
+            <input type="radio" id="paypal" name="payment-method" value="paypal" onchange="showPaymentForm('paypal')">
+            <label for="paypal">PayPal</label>
+        </div>
+        <div class="payment-method">
+            <input type="radio" id="bank-transfer" name="payment-method" value="bank-transfer" onchange="showPaymentForm('bank-transfer')">
+            <label for="bank-transfer">Bank Transfer</label>
+        </div>
+    </div>
+
+    <div id="payment-form" class="payment-form">
+        <!-- Payment form will be dynamically inserted here -->
+    </div>
+
+    <form method="post" id="checkout-form">
+        {% csrf_token %}
+        <button type="submit" class="place-order-btn">Place Order</button>
+    </form>
+</div>
+
+<script>
+function toggleImage(itemId, show) {
+    // ... (keep existing function) ...
+}
+
+function showPaymentForm(method) {
+    const paymentForm = document.getElementById('payment-form');
+    let formHtml = '';
+
+    switch(method) {
+        case 'credit-card':
+            formHtml = `
+                <label for="card-number">Card Number:</label>
+                <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" required>
+                <label for="card-name">Name on Card:</label>
+                <input type="text" id="card-name" name="card-name" placeholder="John Doe" required>
+                <label for="expiry">Expiry Date:</label>
+                <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" placeholder="123" required>
+            `;
+            break;
+        case 'paypal':
+            formHtml = `
+                <label for="paypal-email">PayPal Email:</label>
+                <input type="email" id="paypal-email" name="paypal-email" placeholder="you@example.com" required>
+            `;
+            break;
+        case 'bank-transfer':
+            formHtml = `
+                <label for="account-name">Account Name:</label>
+                <input type="text" id="account-name" name="account-name" placeholder="John Doe" required>
+                <label for="account-number">Account Number:</label>
+                <input type="text" id="account-number" name="account-number" placeholder="123456789" required>
+                <label for="bank-name">Bank Name:</label>
+                <input type="text" id="bank-name" name="bank-name" placeholder="Bank of Example" required>
+            `;
+            break;
+    }
+
+    paymentForm.innerHTML = formHtml;
+}
+
+// Initialize the payment form
+// showPaymentForm('credit-card');
+
+// // Update the checkout form submission
+// document.getElementById('checkout-form').addEventListener('submit', function(e) {
+//     e.preventDefault();
+//     // Here you would typically collect all the form data and send it to your server
+//     alert('Order placed successfully!');
+//     // You can redirect to a confirmation page or clear the cart here
+// });
+</script>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<style>
+    .cart-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        color:#eee2e2
+
+    }
+    h2 {
+        color: #e2eeee;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    th {
+        background-color: #1a1919;
+        font-weight: bold;
+        color: #eee2e2;
+    }
+    .product-info {
+        display: flex;
+        align-items: center;
+        color:#feffff
+    }
+    .product-image {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        margin-right: 10px;
+        border-radius: 4px;
+    }
+    .total-row {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #e74c3c;
+    }
+    .checkout-btn {
+        background-color: #2ecc71;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .checkout-btn:hover {
+        background-color: #27ae60;
+    }
+    .empty-cart {
+        text-align: center;
+        color: #feffff;
+        font-size: 1.2em;
+        margin-top: 40px;
+    }
+</style>
+
+<div class="cart-container">
+    <h2>Your Cart</h2>
+    {% if cart_items %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>
+                            <div class="product-info">
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
+                                <span>{{ item.product.name }}</span>
+                            </div>
+                        </td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.product.price }}</td>
+                        <td>${{ item.product.price|mul:item.quantity }}</td>
+                    </tr>
+                {% endfor %}
+                <tr class="total-row">
+                    <td colspan="3">Total:</td>
+                    <td>Rs{{ total_price }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="{% url 'checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+    {% else %}
+        <p class="empty-cart">Your cart is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}
