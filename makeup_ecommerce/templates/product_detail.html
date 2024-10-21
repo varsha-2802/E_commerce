@@ -1,64 +1,150 @@
-<h1 style="font-size: 24px; color: #333; margin-bottom: 20px;">{{ product.name }}</h1>
+{%load static%}
+<!DOCTYPE html>
 
-<img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 300px; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-
-<p style="font-size: 18px; font-weight: bold; color: #e74c3c; margin: 15px 0;">Price: {{ product.price }}</p>
-
-<p style="font-size: 16px; color: #666; line-height: 1.6; margin-bottom: 20px;">Description: {{ product.description }}</p>
-
-<form method="post" action="{% url 'add_to_cart' product.id %}" style="margin-bottom: 20px;">
-    {% csrf_token %}
-    <button type="submit" style="background-color: #3498db; color: white; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 4px; transition: background-color 0.3s;">Add to Cart</button>
-</form>
-
-<a href="{% url 'product_list' %}" style="text-decoration: none; color: #3498db; font-size: 16px; transition: color 0.3s;">Back to Product List</a>
-
-{% block extra_js %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const addToCartButtons = document.querySelectorAll('.add-to-cart');
-    
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const productId = this.dataset.productId;
-            addToCart(productId);
-        });
-    });
-    
-    function addToCart(productId) {
-        fetch(`/add-to-cart/{productId}/`, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken'),
-                'Content-Type': 'application/json',
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Product added to cart!');
-                // You can update the cart count in the navbar here if you have one
-            } else {
-                alert('Error adding product to cart.');
-            }
-        });
-    }
-    
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }}</title>
+    <style>
+        body {
+            background-image: url("{% static 'images/makeup.jpg'%}");
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: rgb(255,255,255);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
         }
-        return cookieValue;
-    }
-});
-</script>
-{% endblock %}
+        .product-container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 15px 0;
+        }
+        .description {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        .back-link {
+            display: inline-block;
+            text-decoration: none;
+            color: #3498db;
+            font-size: 16px;
+            transition: color 0.3s;
+            margin-top: 20px;
+        }
+        .back-link:hover {
+            color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="product-container">
+        <h1>{{ product.name }}</h1>
+        
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        
+        <p class="price">Price: {{ product.price }}</p>
+        
+        <p class="description">Description: {{ product.description }}</p>
+        
+        <form method="post" action="{% url 'add_to_cart' product.id %}">
+            {% csrf_token %}
+            <button type="submit">Add to Cart</button>
+        </form>
+        
+        <a href="{% url 'product_list' %}" class="back-link">Back to Product List</a>
+    </div>
+
+    {% block extra_js %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productId = this.dataset.productId;
+                    addToCart(productId);
+                });
+            });
+            
+            function addToCart(productId) {
+                fetch(`/add-to-cart/{productId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Product added to cart!');
+                        // You can update the cart count in the navbar here if you have one
+                    } else {
+                        alert('Error adding product to cart.');
+                    }
+                });
+            }
+            
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+    </script>
+    {% endblock %}
+</body>
+</html>
