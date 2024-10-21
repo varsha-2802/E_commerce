@@ -8,7 +8,7 @@
         margin: 0 auto;
         padding: 20px;
         font-family: Arial, sans-serif;
-        color:#f2f2f2
+        color: #f2f2f2;
     }
     h2, h3 {
         color: #ebeff2;
@@ -44,6 +44,18 @@
         margin-right: 10px;
         border-radius: 4px;
     }
+    .product-details {
+        display: flex;
+        flex-direction: column;
+    }
+    .product-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .product-description {
+        font-size: 0.9em;
+        color: #ccc;
+    }
     .total-row {
         font-weight: bold;
         font-size: 1.2em;
@@ -62,7 +74,6 @@
     .place-order-btn:hover {
         background-color: #27ae60;
     }
-
     .payment-form {
         margin-top: 20px;
     }
@@ -90,6 +101,28 @@
                 <th>Total</th>
             </tr>
         </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>
+                    <div class="product-info">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
+                        <div class="product-details">
+                            <span class="product-name">{{ item.product.name }}</span>
+                            <span class="product-description">{{ item.product.description|truncatechars:50 }}</span>
+                        </div>
+                    </div>
+                </td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.product.price }}</td>
+                <td>{{ item.get_total }}</td>
+            </tr>
+            {% endfor %}
+            <tr class="total-row">
+                <td colspan="3">Total</td>
+                <td>{{ cart_total }}</td>
+            </tr>
+        </tbody>
     </table>
 
     <h3>Payment Method</h3>
@@ -119,10 +152,6 @@
 </div>
 
 <script>
-function toggleImage(itemId, show) {
-    // ... (keep existing function) ...
-}
-
 function showPaymentForm(method) {
     const paymentForm = document.getElementById('payment-form');
     let formHtml = '';
@@ -162,14 +191,14 @@ function showPaymentForm(method) {
 }
 
 // Initialize the payment form
-// showPaymentForm('credit-card');
+showPaymentForm('credit-card');
 
-// // Update the checkout form submission
-// document.getElementById('checkout-form').addEventListener('submit', function(e) {
-//     e.preventDefault();
-//     // Here you would typically collect all the form data and send it to your server
-//     alert('Order placed successfully!');
-//     // You can redirect to a confirmation page or clear the cart here
-// });
+// Update the checkout form submission
+document.getElementById('checkout-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Here you would typically collect all the form data and send it to your server
+    alert('Order placed successfully!');
+    // You can redirect to a confirmation page or clear the cart here
+});
 </script>
 {% endblock %}
