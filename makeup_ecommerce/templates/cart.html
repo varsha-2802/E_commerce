@@ -94,8 +94,8 @@
                             </div>
                         </td>
                         <td>{{ item.quantity }}</td>
-                        <td>${{ item.product.price }}</td>
-                        <td>${{ item.product.price|mul:item.quantity }}</td>
+                        <td>{{ item.product.price }}</td>
+                        <td>{{ item.product.price|mul:item.quantity }}</td>
                     </tr>
                 {% endfor %}
                 <tr class="total-row">
